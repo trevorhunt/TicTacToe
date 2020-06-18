@@ -1,0 +1,244 @@
+/* Trevor Hunt
+Lab 9
+March 27 2020
+CECS 130-02
+This is Tic-Tac-Toe*/
+
+#include<iostream>
+#include<ctype.h>
+#include<cstdlib>
+#include<ctime>
+
+using namespace std;
+
+class AClass{
+	public:
+		
+		char position[9];		//board positions
+		
+		void printboard(){		//print the board
+			cout << "       |       |       \n   "<< position[0]<<"   |   "<< position[1]<<"   |   "<< position[2]<<"   \n_______|_______|_______\n       |       |       \n   "<< position[3]<<"   |   "<< position[4]<<"   |   "<< position[5]<<"   \n_______|_______|_______\n       |       |       \n   "<< position[6]<<"   |   "<< position[7]<<"   |   "<< position[8]<<"   \n       |       |       \n" << endl;
+		}
+		
+		int winner;
+		void tellwinner(){		//declares winner
+				if (winner == 1){
+					cout << "You win" << endl;
+				}
+				else if (winner == 2){
+					cout << "Better luck next time" << endl;
+				}
+				else if (winner == 3){
+					cout << "Tie" << endl;
+				}
+		}
+};
+
+int main(){
+	string replay;
+	do{
+		AClass object1;		//class member
+		object1.winner = 0;
+		
+		srand(time(0));
+		int turn = 0;
+		turn = rand() % 2;		//decide who goes first
+		
+		object1.position[0] = '1';		//path of least resistance 
+		object1.position[1] = '2';
+		object1.position[2] = '3';
+		object1.position[3] = '4';
+		object1.position[4] = '5';
+		object1.position[5] = '6';
+		object1.position[6] = '7';
+		object1.position[7] = '8';
+		object1.position[8] = '9';
+		
+		int tile = 0;
+		char letter1;
+		char letter2;
+		int counter = 0;
+		int found = 0;
+		int i = 0;
+		
+		int apple = 0;
+		int pear = 0;
+		int banana = 0;
+		int watermelon = 0;
+		int kiwi = 0;
+		int mango = 0;
+		int blueberry = 0;
+		int strawberry = 0;
+		int pineapple = 0;
+		
+		
+		object1.printboard();
+		
+		if (turn == 1){		//assigning letters and declare who goes first
+			cout << "You go first" << endl;
+			letter1 = 'X';
+			letter2 = 'O';
+		}
+		else if(turn == 0){
+			cout << "You go second\n" << endl;
+			letter1 = 'O';
+			letter2 = 'X';
+		}
+		
+		while (object1.winner == 0){
+			if(turn == 1){
+				cout << "Where do you want to go?" << endl;		//ask for location
+				cin >> tile;		//take answer
+				tile--;		//make it work with array
+				if((object1.position[tile] == 'X') || (object1.position[tile] == 'O')){		//tell if not available
+					cout << "Position " << tile + 1<<" is already taken" << endl;
+				}
+				else{
+					object1.position[tile] = letter1;		//place letter
+					object1.printboard();		//print board
+					if((object1.position[0] == object1.position[4] && object1.position[4] == object1.position[8]) || (object1.position[2] == object1.position[4] && object1.position[4] == object1.position[6])  || (object1.position[0] == object1.position[3] && object1.position[3] == object1.position[6]) || (object1.position[1] == object1.position[4] && object1.position[4] == object1.position[7]) || (object1.position[0] == object1.position[1] && object1.position[1] == object1.position[2])  || (object1.position[3] == object1.position[4] && object1.position[4] == object1.position[5]) || (object1.position[6] == object1.position[7] && object1.position[7] == object1.position[8]) || (object1.position[2] == object1.position[5] && object1.position[5] == object1.position[8])){
+						object1.winner = 1;		//you win
+					}
+					tile = 9;
+					turn = 0;	//opponent's turn
+				}
+			}
+			
+			else if(turn == 0){
+				cout << "Opponent:" << endl;
+				found = 0;
+				if(counter == 0){
+					do{
+						tile =(rand() % 5) * 2;		//best to start on corner
+					}while(tile == 4);
+				}
+				else if(object1.position[0] == object1.position[4] && object1.position[8] != 'X' && object1.position[8] != 'O'){
+					tile = 8;
+				}
+				else if(object1.position[4] == object1.position[8] && object1.position[0] != 'X' && object1.position[0] != 'O'){
+					tile = 0;
+				}
+				else if(object1.position[2] == object1.position[4] && object1.position[6] != 'X' && object1.position[6] != 'O'){
+					tile = 6;
+				}
+				else if(object1.position[4] == object1.position[6] && object1.position[2] != 'X' && object1.position[2] != 'O'){
+					tile = 2;
+				}
+				else{
+					for(i = 0; i <=8; i++){
+						if (found == 0){
+							if((object1.position[i] == object1.position[i + 1]) && object1.position[i] == letter2 && object1.position[i - 1] != 'X' && object1.position[i - 1] != 'O' && apple == 0 && i - 1 >= 0){
+								tile = i - 1;
+								apple++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 1]) && object1.position[i] == letter2 && object1.position[i + 2] != 'X' && object1.position[i + 2] != 'O' && pear == 0 && i + 2 <= 8){
+								tile = i + 2;
+								pear = 1;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 2]) && object1.position[i] == letter2 && object1.position[i + 1] != 'X' && object1.position[i + 1] != 'O' && banana == 0 && i + 1 >= 0 && i % 3 == 0){
+								tile = i + 1;
+								banana++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 3]) && object1.position[i] == letter2 && object1.position[i + 6] != 'X' && object1.position[i + 6] != 'O' && watermelon == 0 && i + 6 <= 8){
+								tile = i + 6;
+								watermelon++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 3]) && object1.position[i] == letter2 && object1.position[i - 3] != 'X' && object1.position[i - 3] != 'O' && kiwi == 0 && i - 3 >= 0){
+								tile = i - 3;
+								kiwi++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 6]) && object1.position[i] == letter2 && object1.position[i + 3] != 'X' && object1.position[i + 3] != 'O' && mango == 0 && i + 3 >= 0){
+								tile = i + 3;
+								mango++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 6]) && object1.position[i] == letter2 && object1.position[i + 3] != 'X' && object1.position[i + 3] != 'O' && blueberry == 0 && i + 3 >= 0){
+								tile = i + 3;
+								blueberry++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 6]) && object1.position[i] == letter2 && object1.position[i + 3] != 'X' && object1.position[i + 3] != 'O' && blueberry == 0 && i + 3 >= 0){
+								tile = i + 3;
+								strawberry++;
+								found = 1;
+							}
+							
+							else if((object1.position[i] == object1.position[i + 1]) && object1.position[i] == letter1 && object1.position[i - 1] != 'X' && object1.position[i - 1] != 'O' && apple == 0 && i - 1 >= 0){
+								tile = i - 1;
+								apple++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 1]) && object1.position[i] == letter1 && object1.position[i + 2] != 'X' && object1.position[i + 2] != 'O' && pear == 0 && i + 2 <= 8){
+								tile = i + 2;
+								pear = 1;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 2]) && object1.position[i] == letter1 && object1.position[i + 1] != 'X' && object1.position[i + 1] != 'O' && banana == 0 && i + 1 >= 0 && i % 3 == 0){
+								tile = i + 1;
+								banana++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 3]) && object1.position[i] == letter1 && object1.position[i + 6] != 'X' && object1.position[i + 6] != 'O' && watermelon == 0 && i + 6 <= 8){
+								tile = i + 6;
+								watermelon++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 3]) && object1.position[i] == letter1 && object1.position[i - 3] != 'X' && object1.position[i - 3] != 'O' && kiwi == 0 && i - 3 >= 0){
+								tile = i - 3;
+								kiwi++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 6]) && object1.position[i] == letter1 && object1.position[i + 3] != 'X' && object1.position[i + 3] != 'O' && mango == 0 && i + 3 >= 0){
+								tile = i + 3;
+								mango++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 6]) && object1.position[i] == letter1 && object1.position[i + 3] != 'X' && object1.position[i + 3] != 'O' && blueberry == 0 && i + 3 >= 0){
+								tile = i + 3;
+								blueberry++;
+								found = 1;
+							}
+							else if((object1.position[i] == object1.position[i + 6]) && object1.position[i] == letter1 && object1.position[i + 3] != 'X' && object1.position[i + 3] != 'O' && blueberry == 0 && i + 3 >= 0){
+								tile = i + 3;
+								strawberry++;
+								found = 1;
+							}
+							
+							else if(object1.position[4] != 'X' && object1.position[4] != 'O'){
+								tile = 4;
+							}
+							else{
+								do{
+									tile = rand() % 8;
+								}while((object1.position[tile] == 'X') || (object1.position[tile] == 'O'));
+							}
+						}	
+					}
+				}
+				object1.position[tile] = letter2;		//place letter
+				
+				
+				object1.printboard();		//print board
+				if((object1.position[0] == object1.position[4] && object1.position[4] == object1.position[8]) || (object1.position[2] == object1.position[4] && object1.position[4] == object1.position[6])  || (object1.position[0] == object1.position[3] && object1.position[3] == object1.position[6]) || (object1.position[1] == object1.position[4] && object1.position[4] == object1.position[7]) || (object1.position[2] == object1.position[5] && object1.position[8] == object1.position[2])  || (object1.position[0] == object1.position[1] && object1.position[1] == object1.position[2])  || (object1.position[3] == object1.position[4] && object1.position[4] == object1.position[5]) || (object1.position[6] == object1.position[7] && object1.position[7] == object1.position[8])){
+					object1.winner = 2;		//you lose
+				}
+				turn = 1;		//your turn
+			}
+			counter++;
+			if(counter >= 9 && object1.winner != 1 && object1.winner != 2){
+				object1.winner = 3;
+			}
+		}
+		object1.tellwinner();
+		
+		cout << "Play again? (yes or no)" << endl;
+		cin >> replay;
+		cout << "\n\n\n\n\n\n\n\n\n\n\n";
+	}while(replay == "Yes" || replay == "yes");
+	return 0;
+}
